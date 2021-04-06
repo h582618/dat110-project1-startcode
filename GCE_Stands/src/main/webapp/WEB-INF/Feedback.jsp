@@ -19,7 +19,7 @@
 <p style="font-weight: bold"> Stand: </p> <p> ${thisStand.name}</p>
 
 <h4> Give a review </h4>
-<form method="post" action="review">
+<form method="post" action="feedback">
     <input type="hidden" name="standId" value="${thisStand.id}">
     <c:forEach var = "i" begin = "1" end = "5">
         <img src="bilder/rating${i-6}.png" style="width:137px; height:32px;"/>
@@ -27,7 +27,7 @@
         <br>
         <br>
     </c:forEach>
-    <input type="hidden" name="hilsen" value="${anmelder}">
+    <input type="hidden" name="email" value="${email}">
     <button type="Submit"> Send review </button>
 </form>
 

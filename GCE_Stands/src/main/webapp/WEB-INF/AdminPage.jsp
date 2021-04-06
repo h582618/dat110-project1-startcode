@@ -13,13 +13,10 @@
 </head>
 <body>
 <div class="header">
-
     <h1> GuttaCorp Expo</h1>
-
 </div>
 <H2> Admin Page</H2>
-<H3> Get QR Code </H3>
-
+<a href="/expo2021_prosjekt3/standsServlet" class="button"> Stands </a>
 
 <H4> Add stand </H4>
 <div class="addStands">

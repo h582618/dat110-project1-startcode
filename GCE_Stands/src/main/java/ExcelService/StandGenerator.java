@@ -10,9 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import Models.Stand;
+import Wrappers.StandWrapper;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 
 public class StandGenerator {
@@ -78,7 +80,7 @@ public class StandGenerator {
                         && id.getStringCellValue().matches(".*\\d.*") &&
                         !id.getStringCellValue().equals("Nr.")
                         && !id.getStringCellValue().equals(" Sum:")){
-                    stands.add(new Stand(id.getStringCellValue(),tittel.getStringCellValue()));
+                    stands.add(new Stand(id.getStringCellValue().replaceAll("\\s+",""),tittel.getStringCellValue()));
                 }
 
             }
@@ -88,13 +90,17 @@ public class StandGenerator {
          System.out.println(x.toString());
      }
 
-     /*
+     String lokalt = "http://localhost:8080/stands/addStands";
+
+     String api =  "http://data1.hib.no:9090/expo2021_prosjekt13/add-stands-from-excel";
+
+
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForObject(
-                "http://localhost:8080/stands/addStands",
+                api,
                 new StandWrapper(stands),
                 ResponseEntity.class);
 
-      */
+
     }
 }

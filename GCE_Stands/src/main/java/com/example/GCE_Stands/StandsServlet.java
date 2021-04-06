@@ -19,51 +19,55 @@ public class StandsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        URL url = new URL("http://localhost:8080/stands/getStands");
 
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
 
-        conn.setRequestMethod("GET");
+        if (email != null) {
+            String lokalt = "http://localhost:8080/stands/getStands";
 
-        conn.connect();
-
-        int responsecode = conn.getResponseCode();
-
-        if(responsecode != 200)
-            throw new RuntimeException("HttpResponseCode: " +responsecode);
-        else
-        {
-            String inline = "";
-            Scanner sc = new Scanner(url.openStream());
-            while(sc.hasNext())
-            {
-                inline+=sc.nextLine();
-            }
-           // System.out.println(inline);
-            sc.close();
-
-            StandWrapper standWrapper =  new Gson().fromJson(inline, StandWrapper.class);
-
-          /*  for(Stand stand : standWrapper.getListOfStands()){
-                System.out.println(stand.toString());
-            }
-           */
-
-            HttpSession session = request.getSession();
-
-
-            session.setAttribute("stands",standWrapper.getListOfStands());
+            String api = "http://data1.hib.no:9090/expo2021_prosjekt13/show-stands";
 
             response.setContentType("text/html;charset=UTF-8");
+            request.setCharacterEncoding("UTF-8");
+            URL url = new URL(api);
 
-            request.getRequestDispatcher("WEB-INF/Stands.jsp").forward(request, response);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+            conn.setRequestMethod("GET");
+
+            conn.connect();
+
+            int responsecode = conn.getResponseCode();
+
+            if (responsecode != 200)
+                throw new RuntimeException("HttpResponseCode: " + responsecode);
+            else {
+                String inline = "";
+                Scanner sc = new Scanner(url.openStream());
+                while (sc.hasNext()) {
+                    inline += sc.nextLine();
+                }
+                sc.close();
+
+
+                StandWrapper standWrapper = new Gson().fromJson(inline, StandWrapper.class);
+
+                for(Stand stand : standWrapper.getListOfStands()){
+                    System.out.println(stand.toString());
+                }
+
+
+
+                session.setAttribute("stands", standWrapper.getListOfStands());
+
+                response.setContentType("text/html;charset=UTF-8");
+
+                request.getRequestDispatcher("WEB-INF/Stands.jsp").forward(request, response);
+
+            }
         }
-
-
-
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override

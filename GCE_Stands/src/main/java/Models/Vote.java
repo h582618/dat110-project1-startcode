@@ -6,7 +6,7 @@ public class Vote {
     private String mailAddress;
     private int value;
 
-    public Vote(int value, String mailAddress) {
+    public Vote(String mailAddress,int value) {
         this.value = value;
         this.mailAddress = mailAddress;
     }

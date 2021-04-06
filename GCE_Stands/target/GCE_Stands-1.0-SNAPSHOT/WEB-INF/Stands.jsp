@@ -23,11 +23,14 @@
 <table>
 <c:forEach items="${stands}" var="x">
     <form action="QrGenerator" method="get">
-        <input type="hidden" name="qrtext" value="http://localhost:5001/GCE_Stands_war_exploded/feedback?id=${x.id}"/>
+        <input type="hidden" name="qrtext" value="http://data1.hib.no:9090/expo2021_prosjekt3/feedback?id=${x.id}"/>
     <tr>
     <td>  ${x.id} ${x.name}</td>
         <td> <input type="submit" value="Generate QR Code" />  </td>
     </tr>
+        <tr>
+
+        </tr>
     </form>
 </c:forEach>
 </table>
